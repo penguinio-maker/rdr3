@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://rdr3_camera_pivot"]
+
+[ext_resource type="Script" path="res://player/CameraPivot.gd" id="1_camera_script"]
+
+[node name="CameraPivot" type="Node3D"]
+script = ExtResource("1_camera_script")
+
+[node name="PitchPivot" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="PitchPivot"]
+spring_length = 4.8
+margin = 0.25
+position = Vector3(0.35, 0.15, 0)
+
+[node name="Camera3D" type="Camera3D" parent="PitchPivot/SpringArm3D"]
+current = true
+fov = 66.0
+near = 0.05
+far = 600.0

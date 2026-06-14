@@ -1,0 +1,221 @@
+[gd_scene load_steps=27 format=3 uid="uid://rdr3_player_scene"]
+
+[ext_resource type="Script" path="res://player/Player.gd" id="1_player_script"]
+[ext_resource type="PackedScene" path="res://player/CameraPivot.tscn" id="2_camera_pivot"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.34
+height = 1.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coat"]
+albedo_color = Color(0.18, 0.105, 0.055, 1)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.22
+height = 0.44
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skin"]
+albedo_color = Color(0.72, 0.49, 0.34, 1)
+roughness = 0.74
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hat_brim"]
+top_radius = 0.5
+bottom_radius = 0.52
+height = 0.035
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hat_crown"]
+top_radius = 0.2
+bottom_radius = 0.29
+height = 0.27
+radial_segments = 10
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hat"]
+albedo_color = Color(0.105, 0.07, 0.04, 1)
+roughness = 0.96
+
+[sub_resource type="BoxMesh" id="BoxMesh_limb"]
+size = Vector3(0.16, 0.7, 0.16)
+
+[sub_resource type="BoxMesh" id="BoxMesh_coat_tail"]
+size = Vector3(0.46, 0.58, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_boot"]
+size = Vector3(0.2, 0.22, 0.32)
+
+[sub_resource type="BoxMesh" id="BoxMesh_belt"]
+size = Vector3(0.56, 0.08, 0.42)
+
+[sub_resource type="BoxMesh" id="BoxMesh_poncho"]
+size = Vector3(0.82, 0.78, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_spur"]
+size = Vector3(0.18, 0.04, 0.14)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leather"]
+albedo_color = Color(0.24, 0.12, 0.045, 1)
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_poncho"]
+albedo_color = Color(0.34, 0.17, 0.075, 1)
+roughness = 0.93
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shirt"]
+albedo_color = Color(0.5, 0.41, 0.3, 1)
+roughness = 0.86
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_denim"]
+albedo_color = Color(0.055, 0.11, 0.18, 1)
+roughness = 0.84
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "Idle"
+length = 1.2
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_walk"]
+resource_name = "Walk"
+length = 0.8
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_run"]
+resource_name = "Run"
+length = 0.56
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_jump"]
+resource_name = "Jump"
+length = 0.45
+
+[sub_resource type="Animation" id="Animation_fall"]
+resource_name = "Fall"
+length = 0.5
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_player"]
+_data = {
+"Fall": SubResource("Animation_fall"),
+"Idle": SubResource("Animation_idle"),
+"Jump": SubResource("Animation_jump"),
+"Run": SubResource("Animation_run"),
+"Walk": SubResource("Animation_walk")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_idle"]
+animation = &"Idle"
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_player_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.05, 0)
+mesh = SubResource("CapsuleMesh_body")
+surface_material_override/0 = SubResource("StandardMaterial3D_coat")
+
+[node name="PonchoFront" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.14, -0.32)
+rotation = Vector3(-0.12, 0, 0)
+mesh = SubResource("BoxMesh_poncho")
+surface_material_override/0 = SubResource("StandardMaterial3D_poncho")
+
+[node name="PonchoBack" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.08, 0.32)
+rotation = Vector3(0.16, 0, 0)
+mesh = SubResource("BoxMesh_poncho")
+surface_material_override/0 = SubResource("StandardMaterial3D_poncho")
+
+[node name="ShirtFront" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.16, -0.23)
+scale = Vector3(0.72, 0.9, 0.22)
+mesh = SubResource("BoxMesh_belt")
+surface_material_override/0 = SubResource("StandardMaterial3D_shirt")
+
+[node name="Belt" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.78, -0.02)
+mesh = SubResource("BoxMesh_belt")
+surface_material_override/0 = SubResource("StandardMaterial3D_leather")
+
+[node name="Head" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.83, 0)
+mesh = SubResource("SphereMesh_head")
+surface_material_override/0 = SubResource("StandardMaterial3D_skin")
+
+[node name="HatBrim" type="MeshInstance3D" parent="Visual/Head"]
+position = Vector3(0, 0.2, 0)
+mesh = SubResource("CylinderMesh_hat_brim")
+surface_material_override/0 = SubResource("StandardMaterial3D_hat")
+
+[node name="HatCrown" type="MeshInstance3D" parent="Visual/Head"]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("CylinderMesh_hat_crown")
+surface_material_override/0 = SubResource("StandardMaterial3D_hat")
+
+[node name="LeftArm" type="MeshInstance3D" parent="Visual"]
+position = Vector3(-0.42, 1.08, 0)
+mesh = SubResource("BoxMesh_limb")
+surface_material_override/0 = SubResource("StandardMaterial3D_coat")
+
+[node name="RightArm" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0.42, 1.08, 0)
+mesh = SubResource("BoxMesh_limb")
+surface_material_override/0 = SubResource("StandardMaterial3D_coat")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="Visual"]
+position = Vector3(-0.16, 0.35, 0)
+mesh = SubResource("BoxMesh_limb")
+surface_material_override/0 = SubResource("StandardMaterial3D_denim")
+
+[node name="RightLeg" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0.16, 0.35, 0)
+mesh = SubResource("BoxMesh_limb")
+surface_material_override/0 = SubResource("StandardMaterial3D_denim")
+
+[node name="LeftBoot" type="MeshInstance3D" parent="Visual/LeftLeg"]
+position = Vector3(0, -0.42, -0.04)
+scale = Vector3(1.05, 1.0, 1.18)
+mesh = SubResource("BoxMesh_boot")
+surface_material_override/0 = SubResource("StandardMaterial3D_leather")
+
+[node name="RightBoot" type="MeshInstance3D" parent="Visual/RightLeg"]
+position = Vector3(0, -0.42, -0.04)
+scale = Vector3(1.05, 1.0, 1.18)
+mesh = SubResource("BoxMesh_boot")
+surface_material_override/0 = SubResource("StandardMaterial3D_leather")
+
+[node name="LeftSpur" type="MeshInstance3D" parent="Visual/LeftLeg/LeftBoot"]
+position = Vector3(0, -0.11, 0.2)
+mesh = SubResource("BoxMesh_spur")
+surface_material_override/0 = SubResource("StandardMaterial3D_hat")
+
+[node name="RightSpur" type="MeshInstance3D" parent="Visual/RightLeg/RightBoot"]
+position = Vector3(0, -0.11, 0.2)
+mesh = SubResource("BoxMesh_spur")
+surface_material_override/0 = SubResource("StandardMaterial3D_hat")
+
+[node name="CoatTail" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.77, 0.23)
+mesh = SubResource("BoxMesh_coat_tail")
+surface_material_override/0 = SubResource("StandardMaterial3D_coat")
+
+[node name="CameraPivot" parent="." instance=ExtResource("2_camera_pivot")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_player")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeAnimation_idle")
+anim_player = NodePath("../AnimationPlayer")
+active = true
