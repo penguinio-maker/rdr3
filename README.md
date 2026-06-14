@@ -16,3 +16,5 @@ I'm a solo dev vibecoding a **Red Dead Redemption 3 style** open-world game usin
 **This is a fully open-source project.** Feel free to fork it, contribute, or just watch the journey
 
 Made with ❤️ and a lot of AI
+
+Licensed under the MIT License.
